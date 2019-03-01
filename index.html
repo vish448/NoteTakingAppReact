@@ -66,14 +66,15 @@
       render(){
         return(
           <div>
+
             <h1>Note taking app</h1>
             <input
               type="text"
               placeholder= "Add Note" />
             <button>Submit Note</button><br/>
-
-          <DisplayNotes noteList = {this.state.notes.filter((completedNote)=>completedNote.completed !== true)} />
-          <CompletedNotes noteList = {this.state.notes.filter((completedNote)=>completedNote.completed === true)} />
+            <button onClick={()=>{this.setState({notes:[]})}}>Clear All</button>
+            <DisplayNotes noteList = {this.state.notes.filter((completedNote)=>completedNote.completed !== true)} />
+            <CompletedNotes noteList = {this.state.notes.filter((completedNote)=>completedNote.completed === true)} />
 
           </div>
         )
