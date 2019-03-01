@@ -59,8 +59,28 @@
               name:'Third Note',
               completed: true,
             },
-          ]
+          ],
+          value : '',
         }
+        this.addNote = this.addNote.bind(this)
+        this.handleChange = this.handleChange.bind(this);
+      }
+      addNote(){
+        //It takes the note whatever is written in the box
+        //Update an opject witht that value
+        this.setState((currentState)=>{
+          return {
+            notes : currentState.notes.concat([{
+              name: currentState.value,
+              completed: false
+            }])
+          }
+        })
+      }
+
+      handleChange(event) {
+        this.setState({value: event.target.value})
+        event.preventDefault()
       }
 
       render(){
@@ -70,9 +90,11 @@
             <h1>Note taking app</h1>
             <input
               type="text"
-              placeholder= "Add Note" />
-            <button>Submit Note</button><br/>
-            <button onClick={()=>{this.setState({notes:[]})}}>Clear All</button>
+              placeholder= "Add Note"
+              value={this.state.value}
+              onChange={this.handleChange} />
+            <button onClick = {()=> {this.addNote()}}>Submit Note</button><br/>
+            <button onClick = {()=> {this.setState({notes:[]})}}>Clear All</button>
             <DisplayNotes noteList = {this.state.notes.filter((completedNote)=>completedNote.completed !== true)} />
             <CompletedNotes noteList = {this.state.notes.filter((completedNote)=>completedNote.completed === true)} />
 
