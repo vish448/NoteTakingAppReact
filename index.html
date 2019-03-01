@@ -26,6 +26,21 @@
       )
     }
 
+    function CompletedNotes(props){
+      return (
+      <div>
+        <h2>Completed Notes</h2>
+          <ul>
+            {props.noteList.map((note) =>
+              <li key={note.name}>
+                {note.name}
+              </li>
+            )}
+          </ul>
+      </div>
+      )
+    }
+
     class App extends React.Component{
 
       constructor(props){
@@ -57,7 +72,9 @@
               placeholder= "Add Note" />
             <button>Submit Note</button><br/>
 
-          <DisplayNotes noteList = {this.state.notes} />
+          <DisplayNotes noteList = {this.state.notes.filter((completedNote)=>completedNote.completed !== true)} />
+          <CompletedNotes noteList = {this.state.notes.filter((completedNote)=>completedNote.completed === true)} />
+
           </div>
         )
       }
