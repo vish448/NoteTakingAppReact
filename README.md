@@ -1,8 +1,9 @@
-Note Taking App with React
+<h1>Note Taking App with React</h1>
 
-Functions implementation
- - Add note
- - Display note
- - Clear all existing note
- - Show complete notes
-
+<h3>Functions implementation<h3>
+ <ul>
+  <li>Add note</li>
+  <li>Display note</li>
+  <li>Clear all existing note</li>
+  <li>Show complete notes</li>
+ </ul>
