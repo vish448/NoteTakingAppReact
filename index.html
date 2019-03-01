@@ -19,8 +19,8 @@
             {props.noteList.map((note) =>
               <li key={note.name}>
                 {note.name}
-                <button>Completed</button>
-                <button onClick={()=>alert(note.name)}>Remove</button>
+                <button onClick = {() => props.onCompleteNote(note.name)}>Completed</button>
+                <button onClick = {() => props.onRemoveNote(note.name)}>Remove</button>
               </li>
             )}
           </ul>
@@ -65,7 +65,9 @@
           value : '',
         }
         this.addNote = this.addNote.bind(this)
-        this.handleChange = this.handleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this)
+        this.handleRemoveNote = this.handleRemoveNote.bind(this)
+        this.handleToggleNote = this.handleToggleNote.bind(this)
       }
       addNote(){
         //It takes the note whatever is written in the box
@@ -78,6 +80,30 @@
             }])
           }
         })
+      }
+
+      handleRemoveNote(note) {
+        this.setState((currentState)=>{
+          return {
+            notes : currentState.notes.filter((removeNote) => removeNote.name !== note )
+          }
+        })
+      }
+
+      handleToggleNote(note){
+        this.setState((currentState)=>{
+          const completed = currentState.notes.find((completedNote) => completedNote.name === note)
+          console.log(completed)
+
+          return{
+            notes : currentState.notes.filter((completed)=> completed.name !== note)
+              .concat([{
+                name:completed.name,
+                completed: !completed.completed
+              }])
+          }
+        })
+
       }
 
       handleChange(event) {
@@ -97,7 +123,11 @@
               onChange={this.handleChange} />
             <button onClick = {()=> {this.addNote()}}>Submit Note</button><br/>
             <button onClick = {()=> {this.setState({notes:[]})}}>Clear All</button>
-            <DisplayNotes noteList = {this.state.notes.filter((completedNote)=>completedNote.completed !== true)} />
+            <DisplayNotes
+              noteList = {this.state.notes.filter((completedNote)=>completedNote.completed !== true)}
+              onRemoveNote = {this.handleRemoveNote}
+              onCompleteNote = {this.handleToggleNote}
+               />
             <CompletedNotes noteList = {this.state.notes.filter((completedNote)=>completedNote.completed === true)} />
 
           </div>
