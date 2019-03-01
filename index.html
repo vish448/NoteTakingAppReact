@@ -19,6 +19,8 @@
             {props.noteList.map((note) =>
               <li key={note.name}>
                 {note.name}
+                <button>Completed</button>
+                <button onClick={()=>alert(note.name)}>Remove</button>
               </li>
             )}
           </ul>
