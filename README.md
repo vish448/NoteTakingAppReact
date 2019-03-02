@@ -7,3 +7,5 @@
   <li>Clear all existing note</li>
   <li>Show complete notes</li>
  </ul>
+
+<b>Note</b> This is the MVP of the product. Updated functions will come later.
