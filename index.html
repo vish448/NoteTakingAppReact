@@ -19,6 +19,8 @@
             {props.noteList.map((note) =>
               <li key={note.name}>
                 {note.name}
+                <button onClick = {() => props.onCompleteNote(note.name)}>Completed</button>
+                <button onClick = {() => props.onRemoveNote(note.name)}>Remove</button>
               </li>
             )}
           </ul>
@@ -59,8 +61,54 @@
               name:'Third Note',
               completed: true,
             },
-          ]
+          ],
+          value : '',
         }
+        this.addNote = this.addNote.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleRemoveNote = this.handleRemoveNote.bind(this)
+        this.handleToggleNote = this.handleToggleNote.bind(this)
+      }
+      addNote(){
+        //It takes the note whatever is written in the box
+        //Update an opject witht that value
+        this.setState((currentState)=>{
+          return {
+            notes : currentState.notes.concat([{
+              name: currentState.value,
+              completed: false
+            }])
+          }
+        })
+      }
+
+      handleRemoveNote(note) {
+        this.setState((currentState)=>{
+          return {
+            notes : currentState.notes.filter((removeNote) => removeNote.name !== note )
+          }
+        })
+      }
+
+      handleToggleNote(note){
+        this.setState((currentState)=>{
+          const completed = currentState.notes.find((completedNote) => completedNote.name === note)
+          console.log(completed)
+
+          return{
+            notes : currentState.notes.filter((completed)=> completed.name !== note)
+              .concat([{
+                name:completed.name,
+                completed: !completed.completed
+              }])
+          }
+        })
+
+      }
+
+      handleChange(event) {
+        this.setState({value: event.target.value})
+        event.preventDefault()
       }
 
       render(){
@@ -70,10 +118,16 @@
             <h1>Note taking app</h1>
             <input
               type="text"
-              placeholder= "Add Note" />
-            <button>Submit Note</button><br/>
-            <button onClick={()=>{this.setState({notes:[]})}}>Clear All</button>
-            <DisplayNotes noteList = {this.state.notes.filter((completedNote)=>completedNote.completed !== true)} />
+              placeholder= "Add Note"
+              value={this.state.value}
+              onChange={this.handleChange} />
+            <button onClick = {()=> {this.addNote()}}>Submit Note</button><br/>
+            <button onClick = {()=> {this.setState({notes:[]})}}>Clear All</button>
+            <DisplayNotes
+              noteList = {this.state.notes.filter((completedNote)=>completedNote.completed !== true)}
+              onRemoveNote = {this.handleRemoveNote}
+              onCompleteNote = {this.handleToggleNote}
+               />
             <CompletedNotes noteList = {this.state.notes.filter((completedNote)=>completedNote.completed === true)} />
 
           </div>
